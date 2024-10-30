@@ -52,47 +52,62 @@ public class Main {
 						Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
 		for (BikeEntry e : topfive.keySet()) {
-			int i = 0;
-			// description of position
-			Map<Integer, String> position = Map.of(0, "highest",
-					1, "second highest",
-					2, "third highest",
-					3, "fourth highest",
-					4, "fifth highest");
+			for (int i = 0; i < 5; i++){
+				// description of position
+				Map<Integer, String> position = Map.of(0, "highest",
+						1, "second highest",
+						2, "third highest",
+						3, "fourth highest",
+						4, "fifth highest");
 
-			// description of weather
-			Map<Integer, String> weather = Map.of(1, "Clear, Few clouds, Partly cloudy, Partly cloudy",
-					2, "Mist + Cloudy, Mist + Broken clouds, Mist + Few clouds, Mist",
-					3, "Light Snow, Light Rain + Thunderstorm + Scattered clouds, Light Rain + Scattered clouds",
-					4, "Heavy Rain + Ice Pallets + Thunderstorm + Mist, Snow + Fog");
+				// description of weather
+				Map<Integer, String> weather = Map.of(1, "Clear, Few clouds, Partly cloudy, Partly cloudy",
+						2, "Mist + Cloudy, Mist + Broken clouds, Mist + Few clouds, Mist",
+						3, "Light Snow, Light Rain + Thunderstorm + Scattered clouds, Light Rain + Scattered clouds",
+						4, "Heavy Rain + Ice Pallets + Thunderstorm + Mist, Snow + Fog");
 
-			// description of holiday
-			Map<Integer, String> holiday = Map.of(1, "a holiday",
-					2, "not a holiday");
-			List<String> output = new LinkedList<>();
-			String input1 = "The <position> recorded number of cyclists was in <season>, on a <day> in the month of <month>.";
-			input1 = input1.replaceAll("<", "(");
-			input1 = input1.replaceAll(">", ")");
-			String input2 = "There were a total of <total> cyclists. The weather was <weather>.";
-			input2 = input2.replaceAll("<", "(");
-			input2 = input2.replaceAll(">", ")");
-			String input3 = "<day> was <holiday>.";
-			input3 = input3.replaceAll("<", "(");
-			input3 = input3.replaceAll(">", ")");
-			output.add(input1);
-			output.add(input2);
-			output.add(input3);
-			for (String s : output) {
-				if (s.contains("(season)")) {
-					String replace = Utilities.toSeason(e.getSeason()) + " " + "(season)";
-					s = s.replaceAll("(season)", replace);
-				} else if (s.contains("(position)")) {
-					s = s.replaceAll("(position)", position.get(i) + "(position)");
-				} else if (s.contains("(day)")) {
-					s = s.replaceAll("(day)", Utilities.toWeekday(e.getWeekday()) + "(position)");
+				// description of holiday
+				Map<Integer, String> holiday = Map.of(1, "a holiday",
+						2, "not a holiday");
+				List<String> output = new LinkedList<>();
+				String input1 = "The <position> recorded number of cyclists was in <season>, on a <day> in the month of <month>.";
+				input1 = input1.replaceAll("<", "(");
+				input1 = input1.replaceAll(">", ")");
+				String input2 = "There were a total of <total> cyclists. The weather was <weather>.";
+				input2 = input2.replaceAll("<", "(");
+				input2 = input2.replaceAll(">", ")");
+				String input3 = "<day> was <holiday>.";
+				input3 = input3.replaceAll("<", "(");
+				input3 = input3.replaceAll(">", ")");
+				output.add(input1);
+				output.add(input2);
+				output.add(input3);
+				for (String s : output) {
+					if (s.contains("(season)")) {
+						String replace = Utilities.toSeason(e.getSeason()) + " " + "(season)";
+						s = s.replace("(season)", replace);
+					} 
+					if (s.contains("(position)")) {
+						String replace = position.get(i) + " " + "(position)";
+						s = s.replace("(position)", replace);
+					}
+					if (s.contains("(day)")) {
+						s = s.replace("(day)", Utilities.toWeekday(e.getWeekday()) + " " + "(day)");
+					} 
+					if (s.contains("(month)")) {
+						s = s.replace("(month)", Utilities.toMonth(e.getMonth()) + " " + "(month)");
+					} 
+					if (s.contains("(total)")) {
+						s = s.replace("(total)", topfive.get(e) + " " + "(total)");
+					} 
+					if (s.contains("(weather)")) {
+						s = s.replace("(weather)", weather.get(e.getWeather()) + " " + "(weather)");
+					} 
+					if (s.contains("(holiday)")) {
+						s = s.replace("(holiday)", holiday.get(e.isHoliday()) + " " + "(holiday)");
+					} 
+					System.out.println(s);
 				}
-				System.out.println(s);
-			}
 		}
 
 		// description of position
@@ -139,7 +154,9 @@ public class Main {
 				4, "Heavy Rain + Ice Pallets + Thunderstorm + Mist, Snow + Fog");
 
 		// description of holiday
-		Map<Integer, String> holiday = Map.of(1, "a holiday",
-				2, "not a holiday");
+		Map<String, String> holiday = Map.of(1, "a holiday",
+				0, "not a holiday");
+		}
 	}
 }
+
