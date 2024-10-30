@@ -154,8 +154,8 @@ public class Main {
 				4, "Heavy Rain + Ice Pallets + Thunderstorm + Mist, Snow + Fog");
 
 		// description of holiday
-		Map<String, String> holiday = Map.of(1, "a holiday",
-				0, "not a holiday");
+		Map<Boolean, String> holiday = Map.of(true, "a holiday",
+				false, "not a holiday");
 		}
 	}
 }
